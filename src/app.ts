@@ -1,6 +1,16 @@
 import express, { Express } from "express";
 import morgan from "morgan";
 
+/**
+ * Represents response structure for health check endpoint
+ */
+interface HealthCheckResponse {
+    status: string;
+    uptime: number;
+    timestamp: string;
+    version: string;
+}
+
 // Initialize Express application
 const app: Express = express();
 
@@ -14,12 +24,14 @@ app.get("/", (req, res) => {
 
 // Define health check route
 app.get("/api/v1/health", (req, res) => {
-    res.json({
+    const healthData: HealthCheckResponse = {
         status: "OK",
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
         version: "1.0.0",
-    });
+    };
+
+    res.json(healthData);
 });
 
 export default app;
