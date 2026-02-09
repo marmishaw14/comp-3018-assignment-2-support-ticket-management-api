@@ -1,7 +1,24 @@
 import express, { Express } from "express";
+import ticketRoutes from "./api/v1/routes/ticketRoutes";
+import morgan from "morgan";
+
+/**
+ * Represents response structure for health check endpoint
+ */
+interface HealthCheckResponse {
+    status: string;
+    uptime: number;
+    timestamp: string;
+    version: string;
+}
 
 // Initialize Express application
 const app: Express = express();
+
+app.use(express.json());
+
+// Use Morgan for HTTP request logging
+app.use(morgan("combined"));
 
 // Define a route
 app.get("/", (req, res) => {
@@ -10,12 +27,17 @@ app.get("/", (req, res) => {
 
 // Define health check route
 app.get("/api/v1/health", (req, res) => {
-    res.json({
+    const healthData: HealthCheckResponse = {
         status: "OK",
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
         version: "1.0.0",
-    });
+    };
+
+    res.json(healthData);
 });
+
+// Define ticket route
+app.use("/api/v1/", ticketRoutes);
 
 export default app;
