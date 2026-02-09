@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import ticketRoutes from "./api/v1/routes/ticketRoutes";
 import morgan from "morgan";
 
 /**
@@ -35,5 +36,8 @@ app.get("/api/v1/health", (req, res) => {
 
     res.json(healthData);
 });
+
+// Define ticket route
+app.use("/api/v1/", ticketRoutes);
 
 export default app;
