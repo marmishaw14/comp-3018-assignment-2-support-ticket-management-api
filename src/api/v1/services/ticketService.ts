@@ -59,3 +59,16 @@ export const updateTicket = (id: number,
     Object.assign(ticket, ticketData);
     return ticket;
 }
+
+/**
+ * 
+ * @param id - The ticket id
+ * @returns - Deleted ticket
+ */
+export const deleteTicket = (id: number) => {
+    const index = tickets.findIndex(ticket => ticket.id === id);
+    if(index === -1) return false;
+
+    tickets.splice(index, 1);
+    return true;
+}
