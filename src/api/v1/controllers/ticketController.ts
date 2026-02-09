@@ -37,3 +37,21 @@ export const createTicket = (req: Request, res: Response) => {
         data: createdTicket
     });
 };
+
+export const getTicketById = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    
+    const selectedTicket = ticketService.getTicketById(id);
+
+    if (selectedTicket) {
+        res.status(HTTP_STATUS.OK).json({
+            message: "Ticket found",
+            data: selectedTicket
+        });
+
+    } else {
+        res.status(HTTP_STATUS.NOT_FOUND).json({
+            message: "Ticket not found"
+        });
+    }
+};
