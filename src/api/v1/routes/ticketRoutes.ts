@@ -8,5 +8,6 @@ ticketRouter.post("/tickets", ticketController.createTicket);
 ticketRouter.get("/tickets/:id", ticketController.getTicketById);
 ticketRouter.put("/tickets/:id", ticketController.updateTicket);
 ticketRouter.delete("/tickets/:id", ticketController.deleteTicket);
+// ticketRouter.get("/tickets/:id/urgency");
 
 export default ticketRouter;
