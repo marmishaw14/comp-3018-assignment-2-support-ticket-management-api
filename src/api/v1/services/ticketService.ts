@@ -41,3 +41,21 @@ export const createTicket = (ticketData: {
 export const getTicketById = (id: number): Ticket | undefined => {
     return tickets.find(ticket => ticket.id === id);
 }
+
+/**
+ * 
+ * @param id - The ticket id
+ * @param ticketData - The ticket data fields to allow updates to
+ * @returns The updated ticket containing the requested id
+ */
+export const updateTicket = (id: number,
+    ticketData: Pick<Ticket, "title" | "description" | "priority" | "status">): Ticket | undefined => {
+    const ticket = tickets.find(ticket => ticket.id === id);
+
+    if(!ticket) {
+        return undefined;
+    }
+
+    Object.assign(ticket, ticketData);
+    return ticket;
+}

@@ -55,3 +55,33 @@ export const getTicketById = (req: Request, res: Response) => {
         });
     }
 };
+
+export const updateTicket = (req: Request, res: Response) => {
+    // Validation check to see if priority field in request body is empty or doesn't contain priority types in priority field
+    if(!req.body.priority || !["critical", "high", "medium", "low"].includes(req.body.priority)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Invalid priority. Must be one of: critical, high, medium, low",
+        });
+    }
+    // Validation check to see if status field in request body is empty or doesn't contain status types in status field
+    if(!req.body.status || !["open", "in-progress", "resolved"].includes(req.body.status)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Invalid status. Must be one of: open, in-progress, resolved"
+        });
+    }
+
+    const id = Number(req.params.id);
+
+    const selectedTicket = ticketService.updateTicket(id, req.body);
+
+    if(!selectedTicket) {
+        return res.status(HTTP_STATUS.NOT_FOUND).json({
+            message: "Ticket not found"
+        })
+    } else {
+        return res.status(HTTP_STATUS.OK).json({
+            message: "Ticket updated successfully",
+            data: selectedTicket
+        });
+    }
+}
